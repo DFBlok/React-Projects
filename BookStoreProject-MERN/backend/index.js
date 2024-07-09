@@ -6,7 +6,7 @@ const app = express();
 
 app.get("/", (request, response) => {
   console.log(request);
-  return response.status(234).send("Welcome To MERN Stack Tutorial");
+  return response.send("Welcome To MERN Stack Tutorial");
 });
 
 mongoose

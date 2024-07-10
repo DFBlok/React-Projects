@@ -68,6 +68,31 @@ app.get("/books/:id", async (request, response) => {
   }
 });
 
+//route for update a book
+app.put("/books/:id", async (request, response) => {
+  try {
+    if (
+      !request.body.title ||
+      !request.body.author ||
+      !request.body.publishYear
+    ) {
+      return response.status(404).send({
+        message: "Send all required fields: title, author, publishYear",
+      });
+    }
+    const { id } = request.params;
+    const result = await Book.findByIdAndUpdate(id, request.body);
+
+    if (!result) {
+      return response.status(404).json({ message: "Book not found" });
+    }
+    return response.status(200).send({ message: "Book update successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(505).send({ message: error.message });
+  }
+});
+
 mongoose
   .connect(monogoDB)
   .then(() => {

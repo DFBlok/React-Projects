@@ -11,14 +11,16 @@ const app = express();
 app.use(express.json());
 
 //Middware for handling CORS Policy
+//OPtion 1:
+app.use(cors());
 //Option 2: Allow custom Orgins
-app.use(
+/* app.use(
   cors({
-    origin: "http://loacalhost:3000",
+    origin: "http://localhost:3001",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
-);
+); */
 
 app.get("/", (request, response) => {
   console.log(request);

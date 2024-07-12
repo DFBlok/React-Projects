@@ -4,8 +4,12 @@ import { BiUserCircle } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineDelete } from "react-icons/md";
+import { BiShow } from "react-icons/bi";
+import { useState } from "react";
+import BookModal from "./BookModal";
 
 const BookSingle = ({ book }) => {
+  const [showModal, setShowModal] = useState(false);
   return (
     <div
       key={book._id}
@@ -24,6 +28,10 @@ const BookSingle = ({ book }) => {
         <h2 className="my-1">{book.author}</h2>
       </div>
       <div className="flex justify-between items-center gap-x-2 mt-4 pt-4">
+        <BiShow
+          className="text-3xl text-blue-800 hover:text-black cursor-pointer"
+          onClick={() => setShowModal(true)}
+        />
         <Link to={`/books/details/${book._id}`}>
           <BsInfoCircle className="text-2xl text-green-800 hover:text-black" />
         </Link>
@@ -34,6 +42,9 @@ const BookSingle = ({ book }) => {
           <MdOutlineDelete className="text-2xl text-red-800 hover:text-black" />
         </Link>
       </div>
+      {showModal && (
+        <BookModal book={book} onClose={() => setShowModal(false)} />
+      )}
     </div>
   );
 };

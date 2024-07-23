@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
     <main>
@@ -10,6 +10,7 @@ export default function Home() {
         magnam corporis sit velit minima. Impedit qui, dignissimos dolorum
         assumenda laboriosam nobis.
       </p>
+      <Button>Click to sign in</Button>
     </main>
   );
 }

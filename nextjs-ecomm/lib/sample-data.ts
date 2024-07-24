@@ -58,7 +58,7 @@ const sampleData = {
     },
     {
       name: "Men's Casual Polo Shirts Classic Button Basic Short Sleeve Shirt.",
-      slug: "polo shirt classic button",
+      slug: "polo-shirt-classic-button",
       category: "Polo Shirts",
       images: ["/assets/images/p5-1.jpg", "/assets/images/p5-2.jpg"],
       price: "26",

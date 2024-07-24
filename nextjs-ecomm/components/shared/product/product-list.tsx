@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard from "./product-card";
 import sampleData from "@/lib/sample-data";
-import { getLatestProduct } from "@/lib/action/product.action";
+import { getLatestProduct } from "@/lib/action/product.actions";
 
 const ProductList = async () => {
   let data = await getLatestProduct();

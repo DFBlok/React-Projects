@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Poppins as FontSans } from "next/font/google";
 import "@/styles/globals.css";
 import { cn } from "@/lib/utils";
-import Header from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,11 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <div className="flex h-screen flex-col">
-          <Header />
-          <main className="flex-1 wrapper"> {children}</main>
-          <Footer />
-        </div>
+        {children}
       </body>
     </html>
   );

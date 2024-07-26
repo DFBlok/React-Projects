@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { signUp } from "./signup-action";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +15,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const SignUpSchema = z
   .object({
@@ -37,6 +39,7 @@ export const SignUpSchema = z
   });
 
 export function SignUpForm() {
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignUpSchema>>({
     resolver: zodResolver(SignUpSchema),
@@ -55,7 +58,14 @@ export function SignUpForm() {
   });
 
   //define handler
-  function onSubmit(values: z.infer<typeof SignUpSchema>) {
+  async function onSubmit(values: z.infer<typeof SignUpSchema>) {
+    const res = await signUp(values);
+    if (res.success) {
+      toast.success("Account created successfully");
+      router.push("/");
+    } else {
+      toast.error(res.error);
+    }
     console.log(values);
   }
 

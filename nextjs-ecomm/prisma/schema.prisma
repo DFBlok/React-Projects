@@ -49,6 +49,7 @@ model User {
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cart        Cart[]
 }
  
 model Account {
@@ -107,4 +108,20 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@unique([userId, credentialID])
+}
+
+model Cart {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String?  @db.ObjectId
+  sessionCartId String
+  items         Json     @default("[]")
+  itemsPrice    Float
+  shippingPrice Float
+  taxPrice      Float
+  totalPrice    Float
+  createdAt     DateTime @default(now())
+  user          User?    @relation(fields: [userId], references: [id])
+
+  @@unique([userId])
+  @@map("cart")
 }

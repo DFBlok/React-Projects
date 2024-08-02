@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { signInWithCredentials } from "./login-action";
 import Link from "next/link";
 import {
@@ -20,6 +21,10 @@ import { Input } from "@/components/ui/input";
 import { loginSchema } from "@/lib/Schema/loginSchema";
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  //Get the callback URL
+  const callbackUrl = searchParams?.get("callbackUrl") || "/";
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -37,10 +42,10 @@ export function LoginForm() {
     }
     const { email, password } = validationFields.data;
 
-    const res = await signInWithCredentials({ email, password });
+    const res = await signInWithCredentials({ email, password }, callbackUrl);
     if (res?.success) {
       toast.success("Login success");
-      router.push("/");
+      router.replace(callbackUrl);
     } else {
       toast.error(res?.error);
     }

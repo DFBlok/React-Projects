@@ -7,6 +7,10 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/signin",
+    error: "/signin",
+  },
   callbacks: {
     /*     session({ token, session }) {
       if (token.sub && session.user) {
@@ -14,6 +18,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       return session;
     }, */
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url;
+      if (url.startsWith("/")) return new URL(url, baseUrl).toString();
+      return baseUrl;
+    },
     async jwt({ token, user, session, trigger }: any) {
       if (user) {
         if (trigger === "signIn" || trigger === "signUp") {

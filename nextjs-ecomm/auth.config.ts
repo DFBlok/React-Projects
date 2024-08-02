@@ -7,6 +7,12 @@ import bcrypt from "bcryptjs";
 export default {
   providers: [
     Credentials({
+      credentials: {
+        email: {
+          type: "email",
+        },
+        password: { type: "password" },
+      },
       async authorize(credentials) {
         // Ensure credentials are defined
         if (!credentials) {

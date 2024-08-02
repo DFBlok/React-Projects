@@ -7,7 +7,8 @@ import { loginSchema } from "@/lib/Schema/loginSchema";
 import { getUserByEmail } from "@/lib/action/user.action";
 
 export const signInWithCredentials = async (
-  values: z.infer<typeof loginSchema>
+  values: z.infer<typeof loginSchema>,
+  callbackUrl: string
 ) => {
   const validatedFields = loginSchema.safeParse(values);
 
@@ -27,6 +28,7 @@ export const signInWithCredentials = async (
       email,
       password,
       redirect: false,
+      callbackUrl,
     });
 
     if (response?.error) {

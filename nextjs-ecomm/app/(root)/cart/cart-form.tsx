@@ -126,7 +126,9 @@ export default function CartForm({ cart }: { cart?: Cart }) {
                   {formatCurrency(cart.itemsPrice)}
                 </div>
                 <Button
-                  onClick={() => startTransition(() => router.push("/signin"))}
+                  onClick={() =>
+                    startTransition(() => router.push("/shipping-address"))
+                  }
                   className="w-full"
                   disabled={isPending}
                 >

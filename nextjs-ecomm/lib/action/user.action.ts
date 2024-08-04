@@ -2,9 +2,13 @@
 import prisma from "@/prisma/client";
 import { ShippingAddress } from "../types";
 import { auth } from "@/auth";
-import { shippingAddressSchema } from "../validation/validator";
+import {
+  paymentMethodSchema,
+  shippingAddressSchema,
+} from "../validation/validator";
 import { revalidatePath } from "next/cache";
 import { formatError } from "../utils";
+import { z } from "zod";
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -74,5 +78,41 @@ export async function updateUserAddress(data: ShippingAddress) {
       success: false,
       message: formatError(error),
     };
+  }
+}
+
+export async function updateUserPaymentMethod(
+  data: z.infer<typeof paymentMethodSchema>
+) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
+
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+
+    const paymentMethod = paymentMethodSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: currentUser.id },
+      data: { paymentMethod: paymentMethod.type },
+    });
+
+    revalidatePath("/place-order");
+
+    return {
+      success: true,
+      message: "User updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }

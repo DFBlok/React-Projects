@@ -43,3 +43,31 @@ export const paymentResultSchema = z.object({
   email_address: z.string(),
   pricePaid: z.string(),
 });
+
+// Insert Order Schema
+export const insertOrderSchema = z.object({
+  userId: z.string(),
+  shippingAddress: shippingAddressSchema,
+  paymentMethod: z.string(),
+  paymentResult: paymentResultSchema.optional(),
+  itemsPrice: z.number().positive(),
+  shippingPrice: z.number().positive(),
+  taxPrice: z.number().positive(),
+  totalPrice: z.number().positive(),
+  isPaid: z.boolean().optional(),
+  paidAt: z.date().optional(),
+  isDelivered: z.boolean().optional(),
+  deliveredAt: z.date().optional(),
+  createdAt: z.date().optional(),
+});
+
+// Insert Order Item Schema
+export const insertOrderItemSchema = z.object({
+  orderId: z.string(),
+  productId: z.string(),
+  qty: z.number().int().positive(),
+  price: z.number().positive(),
+  name: z.string(),
+  slug: z.string(),
+  image: z.string(),
+});

@@ -31,6 +31,7 @@ model Product {
   banner      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  orderItems   OrderItem[]
 
   @@map("products")
 }
@@ -53,6 +54,7 @@ model User {
   updatedAt DateTime @updatedAt
   cart        Cart[]
   address      Address[]
+  order       Order[]
 }
  
 model Account {
@@ -147,5 +149,44 @@ model Address {
 
   @@map("address")
 
+}
+
+model Order {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String    @db.ObjectId
+  shippingAddress Json
+  paymentMethod   String
+  paymentResult   Json?
+  itemsPrice      Float
+  shippingPrice   Float
+  taxPrice        Float
+  totalPrice      Float
+  isPaid          Boolean   @default(false)
+  paidAt          DateTime?
+  isDelivered     Boolean   @default(false)
+  deliveredAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+
+  @@map("order")
+}
+
+model OrderItem {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String @db.ObjectId
+  productId String @db.ObjectId
+  qty       Int
+  price     Float
+  name      String
+  slug      String
+  image     String
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([orderId, productId])
+  @@map("orderItem")
 }
 

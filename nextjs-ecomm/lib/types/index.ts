@@ -2,10 +2,13 @@ import { cartItemSchema, shippingAddressSchema } from "../validation/validator";
 import { z } from "zod";
 import { Order as PrismaOrder } from "@prisma/client";
 import { OrderItem } from "@prisma/client";
+import { paymentResultSchema } from "../validation/validator";
 
 //CART
 //return types objects
 export type CartItem = z.infer<typeof cartItemSchema>;
+
+export type PaymentResult = z.infer<typeof paymentResultSchema>;
 
 // shipping address type
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>;

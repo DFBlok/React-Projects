@@ -17,7 +17,11 @@ const OrderDetailsPage = async ({
   console.log(order);
   if (!order) notFound();
 
-  return <OrderDetailsForm order={order} />;
+  return;
+  <OrderDetailsForm
+    order={order}
+    paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
+  />;
 };
 
 export default OrderDetailsPage;

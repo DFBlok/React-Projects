@@ -5,7 +5,7 @@ export default async function Home() {
   const session = await auth();
   return (
     <div className="space-y-8">
-      {JSON.stringify(session)}
+      {/* {JSON.stringify(session)} */}
       <ProductList />
     </div>
   );

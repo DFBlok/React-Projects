@@ -15,13 +15,18 @@ const OrderDetailsPage = async ({
 }) => {
   const order = await getOrderById(id);
   /* console.log(order); */
-  if (!order) notFound();
+  /* if (!order) notFound(); */
+  if (!order) {
+    return <div>No order found</div>;
+  }
 
   return;
-  <OrderDetailsForm
+
+  ///ADD THIS AT A LATER STAGE ///
+  /*  <OrderDetailsForm
     order={order}
     paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
-  />;
+  />; */
 };
 
 export default OrderDetailsPage;
